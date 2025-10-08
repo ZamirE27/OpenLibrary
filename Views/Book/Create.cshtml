@@ -1,0 +1,29 @@
+@model Book
+
+<h2>Create Book</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Title" class="control-label">Title</label>
+        <input asp-for="Title" class="form-control" placeholder="Enter book title" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Author"  class="control-label">Author</label>
+        <input asp-for="Author" class="form-control" placeholder="Enter author name" />
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Summary" class="control-label">Summary</label>
+        <input asp-for="Summary" class="form-control" placeholder="Unique book Summary" />
+        <span asp-validation-for="Summary" class="text-danger"></span>
+    </div>
+    
+    <br>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-danger">Cancel</a>
+    </div>
+</form>

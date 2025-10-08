@@ -1,0 +1,31 @@
+@model OpenLibrary
+
+<form asp-action="Search" method="post" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="query" class="form-control" placeholder="Book Title..." />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-warning">@ViewBag.Error</div>
+}
+
+@if (Model?.Docs != null && Model.Docs.Any())
+{
+    <h3>Found results:</h3>
+    <ul class="list-group">
+        @foreach (var book in Model.Docs.Take(10)) 
+        {
+            <li class="list-group-item">
+                <strong>@book.Title</strong><br />
+                Autor: @string.Join(", ", book.Author_Name ?? new List<string> { "Unknown" })
+            </li>
+        }
+    </ul>
+}
+else if (Model != null)
+{
+    <div class="alert alert-info">No results found.</div>
+}

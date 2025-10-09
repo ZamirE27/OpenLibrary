@@ -4,6 +4,7 @@
     <div class="input-group">
         <input type="text" name="query" class="form-control" placeholder="Book Title..." />
         <button type="submit" class="btn btn-primary">Search</button>
+        <a asp-action="Index" class="btn btn-danger">Go back</a>
     </div>
 </form>
 
@@ -14,7 +15,13 @@
 
 @if (Model?.Docs != null && Model.Docs.Any())
 {
-    <h3>Found results:</h3>
+    <h3>results found:</h3>
+    @if (ViewBag.Match != null)
+    {
+        <div class="alert alert-info">
+            @ViewBag.Match
+        </div>
+    }
     <ul class="list-group">
         @foreach (var book in Model.Docs.Take(10)) 
         {

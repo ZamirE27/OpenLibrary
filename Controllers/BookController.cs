@@ -120,12 +120,29 @@ public class BookController : Controller
             ViewBag.Error = "Please enter a book title to search";
             return View();
         }
-
         var result = await _openLibraryService.SearchBookAync(Query);
+        
+        var localBooks = await _bookRepository.GetAllAsync();
+        
+        var localTitles = localBooks.Select(b => b.Title.Trim().ToLower()).ToHashSet();
+        var bookMatch = new List<string>();
         if (result == null || result.Docs == null || result.Docs.Count == 0)
         {
-            ViewBag.Error = $"Could not get the results fot \"{Query}\".";
+            ViewBag.Error = $"Could not get the results for \"{Query}\".";
             return View();
+        }
+
+        foreach (var doc in result.Docs)
+        {
+            if (!string.IsNullOrWhiteSpace(doc.Title) && localTitles.Contains(doc.Title.Trim().ToLower()))
+            {
+                bookMatch.Add(doc.Title);
+            }
+        }
+
+        if (bookMatch.Any())
+        {
+            ViewBag.Match = $"The book {bookMatch[0]} matches with one of our stored books";
         }
         return View(result);
     }
